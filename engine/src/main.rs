@@ -17,12 +17,13 @@ fn index() -> Result<Redirect, String> {
 #[get("/<slug>")]
 fn fetch_url(slug: &str) -> Result<Redirect, Redirect> {
    let mut conn = db::connect();
-   let key = format!("{}::hits", slug);
-   let link_exists: Result<String, _> = conn.get(slug);
+   let key = format!("qta:{}", slug);
+   let hits_key = format!("qta:hits:{}", slug);
+   let fetch_link: Result<String, _> = conn.get(key);
 
-   match link_exists {
+   match fetch_link {
     Ok(url) => Ok({
-        let _ : () = conn.incr(key, 1).expect("Unable to increment counter!");
+        let _ : () = conn.incr(hits_key, 1).expect("Unable to increment counter!");
         Redirect::temporary(url) // Using temporary redirects to allow counting hits
     }),
     _ => Err(Redirect::to("/")),
