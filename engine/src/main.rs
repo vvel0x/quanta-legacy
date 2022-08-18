@@ -37,6 +37,7 @@ fn heartbeat() -> String {
 
 #[launch]
 fn rocket() -> _ {
+    println!("Starting Quanta engine...");
     rocket::build()
     .mount("/", routes![index, heartbeat])
     .mount("/", routes![fetch_url])
