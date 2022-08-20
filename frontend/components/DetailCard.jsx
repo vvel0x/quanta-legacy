@@ -1,6 +1,7 @@
 import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../lib/fetcher";
-import { SpinnerInfinity } from "spinners-react";
+import { SpinnerDiamond } from "spinners-react";
+import QR from "./QR";
 
 const DetailCard = ({ slug }) => {
   const { mutate } = useSWRConfig();
@@ -12,7 +13,7 @@ const DetailCard = ({ slug }) => {
   if (!data)
     return (
       <div className="grid place-items-center h-full">
-        <SpinnerInfinity size={50} thickness={100} speed={100} />
+        <SpinnerDiamond size={50} thickness={100} speed={100} />
       </div>
     );
 
@@ -100,22 +101,7 @@ const DetailCard = ({ slug }) => {
               />
             </svg>
           </button>
-          <button className="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-md">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
-              />
-            </svg>
-          </button>
+          <QR data={url} />
         </div>
       </div>
       <div className="flex flex-row justify-between items-center whitespace-nowrap gap-x-2 text-sm">
