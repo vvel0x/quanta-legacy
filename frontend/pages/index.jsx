@@ -22,7 +22,7 @@ export default function Home() {
           <title>Quanta Web</title>
         </Head>
         <div className="flex flex-col items-center gap-4">
-          <p className="italic text-gray-600">Couldn't connect to backend!</p>
+          <p className="italic text-gray-600">Couldn not connect to backend!</p>
         </div>
       </div>
     );
@@ -110,7 +110,7 @@ export default function Home() {
               <div className="px-4 py-6 text-center text-sm text-gray-700">
                 <span className="font-medium">No results</span>
                 <p>
-                  <i>It's so quiet here... 👀</i>
+                  <i>It is so quiet here... 👀</i>
                 </p>
               </div>
             )}
@@ -130,8 +130,8 @@ export default function Home() {
                 )
               ) : (
                 <p className="bg-red-200 p-3 rounded text-red-800">
-                  <strong>No prefix configured!</strong> You'll need to specify
-                  one (in "Settings") to use Quanta.
+                  <strong>No prefix configured!</strong> You will need to
+                  specify one (in Settings) to use Quanta.
                 </p>
               )}
             </div>

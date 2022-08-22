@@ -115,6 +115,7 @@ const DetailCard = ({ prefix, link, select }) => {
           <a
             href={url}
             target="_BLANK"
+            rel="noreferrer"
             className="hover:text-pink-600 transition ease-in-out"
           >
             {url}
