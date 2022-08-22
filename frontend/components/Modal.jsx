@@ -26,7 +26,7 @@ const Modal = ({ show, toggle, title, children }) => {
           {/* Full-screen container to center the panel */}
           <div className="fixed inset-0 flex items-center justify-center p-4">
             {/* The actual dialog panel  */}
-            <Dialog.Panel className="mx-auto max-w-sm rounded bg-white px-6 py-4 flex flex-col gap-y-3">
+            <Dialog.Panel className="max-w-sm rounded bg-white px-6 py-4 flex flex-col gap-y-3">
               <Dialog.Title>
                 <span className="text-xl font-semibold">{title}</span>
               </Dialog.Title>

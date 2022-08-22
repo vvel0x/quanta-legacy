@@ -1,12 +1,31 @@
 import { SpinnerDiamond } from "spinners-react";
 import useSWR, { useSWRConfig } from "swr";
+import { useState } from "react";
 import fetcher from "../lib/fetcher";
 import CopyToClipboard from "./CopyToClipboard";
+import IconButton from "./IconButton";
 import QR from "./QR";
 
-const DetailCard = ({ prefix, slug }) => {
+const DetailCard = ({ prefix, link, select }) => {
+  const { name, slug } = link;
   const { mutate } = useSWRConfig();
   const { data, error } = useSWR("/api/slugs/" + slug, fetcher);
+
+  const [errors, setErrors] = useState({});
+
+  const handleRefresh = () => mutate("/api/slugs/" + slug);
+
+  const handleDelete = async () => {
+    const deleteSlug = await fetch("/api/slugs/" + slug, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data: link }),
+    });
+
+    if (!deleteSlug.ok) setErrors({ ...errors, delete: true });
+    mutate("/api/slugs");
+    select(null);
+  };
 
   if (error)
     return (
@@ -21,7 +40,7 @@ const DetailCard = ({ prefix, slug }) => {
       </div>
     );
 
-  const { name, url: destination, created, hits } = data;
+  const { url: destination, created, hits } = data;
   const url = `http://${prefix}/${slug}`;
   const date = new Date(created).toDateString();
 
@@ -38,30 +57,44 @@ const DetailCard = ({ prefix, slug }) => {
         </div>
 
         {/* Refresh button */}
-        <button
-          title="Refresh"
-          className="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-          onClick={() => mutate("/api/slugs/" + slug)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-            />
-          </svg>
-        </button>
+        <div>
+          <IconButton title="Refresh" handleClick={handleRefresh}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+          </IconButton>
+
+          <IconButton title="Delete" handleClick={handleDelete}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4  "
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
+            </svg>
+          </IconButton>
+        </div>
       </div>
       <div className="border border-blue-200 rounded-md flex flex-row whitespace-nowrap justify-between items-center text-gray-700 p-1 transition ease-in-out">
         <div className="flex flex-row overflow-hidden items-center">
-          {/* Copy original URL to clipboard */}
           <button className="p-2 text-gray-500 hover:text-gray-700 transition ease-in-out">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -101,11 +134,12 @@ const DetailCard = ({ prefix, slug }) => {
           <span className="font-semibold">Destination: </span>
           {destination}
         </div>
-        <div className="text-xs">
+        {/* Modify button to be implemented in the future */}
+        {/* <div className="text-xs">
           <button className="px-2 py-1 border border-gray-300 hover:border-pink-300 hover:text-pink-600">
             Modify
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
