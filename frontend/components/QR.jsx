@@ -9,6 +9,7 @@ const QR = ({ data: url }) => {
 
   return (
     <button
+      title="Get a shareable QR code"
       className="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-md"
       onClick={() => handleToggle()}
     >
@@ -27,10 +28,18 @@ const QR = ({ data: url }) => {
         />
       </svg>
 
-      <Modal show={isOpen} toggle={handleToggle} title="QR Code">
+      <Modal show={isOpen} toggle={handleToggle} title="Get QR Code">
         <div className="p-4 max-w-xs border border-slate-300 rounded flex flex-col gap-2">
-          <QRCodeSVG value={url} size={156} />
+          <QRCodeSVG className="mx-auto" value={url} size={156} />
           <span className="w-full text-center text-sm">{url}</span>
+        </div>
+        <div className="flex mt-4">
+          <button
+            onClick={handleToggle}
+            className="mx-auto px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-900 text-sm"
+          >
+            Close
+          </button>
         </div>
       </Modal>
     </button>

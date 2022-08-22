@@ -4,9 +4,9 @@ import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
+    <div className="bg-slate-50">
       <Component {...pageProps} />
-    </Layout>
+    </div>
   );
 }
 

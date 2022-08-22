@@ -1,15 +1,19 @@
+import { SpinnerDiamond } from "spinners-react";
 import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../lib/fetcher";
-import { SpinnerDiamond } from "spinners-react";
+import CopyToClipboard from "./CopyToClipboard";
 import QR from "./QR";
 
-const DetailCard = ({ slug }) => {
+const DetailCard = ({ prefix, slug }) => {
   const { mutate } = useSWRConfig();
   const { data, error } = useSWR("/api/slugs/" + slug, fetcher);
 
-  const prefix = "acqu.is";
-
-  if (error) return <div>failed to load</div>;
+  if (error)
+    return (
+      <div className="grid place-items-center h-full">
+        <p>Something went wrong!</p>
+      </div>
+    );
   if (!data)
     return (
       <div className="grid place-items-center h-full">
@@ -17,9 +21,9 @@ const DetailCard = ({ slug }) => {
       </div>
     );
 
-  const { name, url: destination, created_at: ts, hits } = data;
+  const { name, url: destination, created, hits } = data;
   const url = `http://${prefix}/${slug}`;
-  const date = new Date(ts).toDateString();
+  const date = new Date(created).toDateString();
 
   return (
     <div className="flex flex-col px-6 py-5 gap-y-5">
@@ -35,6 +39,7 @@ const DetailCard = ({ slug }) => {
 
         {/* Refresh button */}
         <button
+          title="Refresh"
           className="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100"
           onClick={() => mutate("/api/slugs/" + slug)}
         >
@@ -83,30 +88,17 @@ const DetailCard = ({ slug }) => {
           </a>
         </div>
 
-        {/* Generate QR Code */}
         <div className="flex flex-row">
-          <button className="p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-md">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"
-              />
-            </svg>
-          </button>
+          {/* Copy to Clipboard */}
+          <CopyToClipboard data={url} />
+
+          {/* Generate QR Code */}
           <QR data={url} />
         </div>
       </div>
       <div className="flex flex-row justify-between items-center whitespace-nowrap gap-x-2 text-sm">
         <div className="overflow-x-hidden">
-          <span className="font-medium">Destination: </span>
+          <span className="font-semibold">Destination: </span>
           {destination}
         </div>
         <div className="text-xs">

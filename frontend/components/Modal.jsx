@@ -28,19 +28,9 @@ const Modal = ({ show, toggle, title, children }) => {
             {/* The actual dialog panel  */}
             <Dialog.Panel className="mx-auto max-w-sm rounded bg-white px-6 py-4 flex flex-col gap-y-3">
               <Dialog.Title>
-                <span className="text-xl font-semibold">Get QR Code</span>
+                <span className="text-xl font-semibold">{title}</span>
               </Dialog.Title>
-              <div className="flex flex-col gap-y-6">
-                <div>{children}</div>
-                <div className="mx-auto">
-                  <button
-                    onClick={() => toggle()}
-                    className="px-3 py-2 rounded bg-gray-100 hover:bg-gray-200 text-gray-900 text-sm"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
+              <div className="w-full">{children}</div>
             </Dialog.Panel>
           </div>
         </Transition.Child>
