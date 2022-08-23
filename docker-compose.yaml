@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  frontend:
+    image: "vvel0x/quanta-web"
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    environment:
+      REDIS_HOST: "db"
+    depends_on:
+      - db
+
+  engine:
+    image: "vvel0x/quanta-engine"
+    restart: unless-stopped
+    ports:
+      - 80:8000
+    environment:
+      REDIS_HOST: "db"
+    depends_on:
+      - db
+
+  db:
+    image: "redis:alpine"
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
