@@ -1,4 +1,4 @@
-name: ci
+name: Build Frontend Docker Image
 
 on:
   push:
@@ -29,6 +29,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: frontend
+          file: frontend/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: vvel0x/quanta-web:test-latest
