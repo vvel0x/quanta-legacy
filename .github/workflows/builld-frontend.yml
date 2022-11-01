@@ -1,4 +1,4 @@
-name: Build UI Image
+name: Build Frontend Docker Image
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - "master"
 
 jobs:
-  build:
+  docker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,4 +26,4 @@ jobs:
           context: frontend
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: vvel0x/quanta-web:latest
+          tags: vvel0x/quanta-web:test-latest
