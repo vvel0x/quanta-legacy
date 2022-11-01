@@ -1,4 +1,4 @@
-name: Build UI Image
+name: Build Quanta Engine Image
 
 on:
   push:
@@ -26,4 +26,4 @@ jobs:
           context: frontend
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: vvel0x/quanta-web:latest
+          tags: vvel0x/quanta-engine:latest
